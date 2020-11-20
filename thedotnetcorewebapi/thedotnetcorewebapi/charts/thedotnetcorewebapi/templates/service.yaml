@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "thedotnetcorewebapi.fullname" . }}
+  labels:
+    app: {{ template "thedotnetcorewebapi.name" . }}
+    chart: {{ template "thedotnetcorewebapi.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "thedotnetcorewebapi.name" . }}
+    release: {{ .Release.Name }}

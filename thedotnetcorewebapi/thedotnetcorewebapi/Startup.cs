@@ -29,6 +29,7 @@ namespace thedotnetcorewebapi
         {
             services.AddControllers();
             services.AddSingleton<IDocumentClient>(x => new DocumentClient(new Uri(Configuration["CosmosDB:URL"]), Configuration["CosmosDB:PrimaryKey"]));
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +44,8 @@ namespace thedotnetcorewebapi
 
             app.UseAuthorization();
 
+            app.UseHealthChecks("/health");
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
